@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Rock Paper Scissors</title>
+  <style>
+    body {
+      text-align: center;
+      font-family: Arial, sans-serif;
+      background-color: #f5f5f5;
+    }
+
+    h1 {
+      color: #333;
+    }
+
+    .button-container {
+      margin-top: 20px;
+    }
+
+    .button {
+      display: inline-block;
+      margin: 10px;
+      padding: 10px 20px;
+      font-size: 18px;
+      text-transform: uppercase;
+      background-color: #f5f5f5;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
+      transition: background-color 0.3s ease;
+    }
+
+    .button:hover {
+      background-color: #e0e0e0;
+    }
+
+    #result {
+      font-size: 24px;
+      font-weight: bold;
+      margin-top: 20px;
+    }
+
+    #move-images {
+      margin-top: 40px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    #move-images img {
+      width: 150px;
+      height: 150px;
+      margin: 10px;
+      border: 2px solid #333;
+      border-radius: 50%;
+      cursor: pointer;
+      box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
+      transition: border-color 0.3s ease;
+    }
+
+    #move-images img:hover {
+      border-color: #e0e0e0;
+    }
+
+    #moves {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-top: 20px;
+    }
+
+    #moves img {
+      width: 100px;
+      height: 100px;
+      margin: 10px;
+      border: 2px solid #333;
+      border-radius: 50%;
+      box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
+    }
+  </style>
+</head>
+<body>
+  <h1>Rock Paper Scissors</h1>
+  <p>Select your move:</p>
+  <div id="move-images">
+    <img src="rock.png" alt="Rock" data-move="rock">
+    <img src="paper.png" alt="Paper" data-move="paper">
+    <img src="scissors.png" alt="Scissors" data-move="scissors">
+  </div>
+  <div id="result"></div>
+  <div id="moves">
+    <img src="move.png" alt="Player Move" id="player-move">
+    <img src="move.png" alt="Computer Move" id="computer-move">
+  </div>
+
+  <script>
+    const moves = ['rock', 'paper', 'scissors'];
+
+    const playerImages = document.querySelectorAll('#move-images img');
+    playerImages.forEach(img => img.addEventListener('click', () => playGame(img.dataset.move)));
+
+    function playGame(playerMove) {
+      const computerMove = getRandomMove();
+      const resultText = getResultText(playerMove, computerMove);
+      displayResult(playerMove, computerMove, resultText);
+    }
+
+    function getRandomMove() {
+      const randomIndex = Math.floor(Math.random() * moves.length);
+      return moves[randomIndex];
+    }
+
+    function getResultText(playerMove, computerMove) {
+      if (playerMove === computerMove) {
+        return "It's a tie!";
+      } else if (
+        (playerMove === 'rock' && computerMove === 'scissors') ||
+        (playerMove === 'paper' && computerMove === 'rock') ||
+        (playerMove === 'scissors' && computerMove === 'paper')
+      ) {
+        return "You win!";
+      } else {
+        return "You lose!";
+      }
+    }
+
+    function displayResult(playerMove, computerMove, resultText) {
+      const playerMoveImg = document.getElementById("player-move");
+      const computerMoveImg = document.getElementById("computer-move");
+
+      playerMoveImg.src = `${playerMove}.png`;
+      playerMoveImg.alt = `${playerMove.charAt(0).toUpperCase() + playerMove.slice(1)} Move`;
+
+      computerMoveImg.src = `${computerMove}.png`;
+      computerMoveImg.alt = `${computerMove.charAt(0).toUpperCase() + computerMove.slice(1)} Move`;
+
+      const resultElement = document.getElementById("result");
+      resultElement.innerHTML = resultText;
+    }
+  </script>
+</body>
+</html>
